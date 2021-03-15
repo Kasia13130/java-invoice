@@ -2,6 +2,7 @@ package pl.edu.agh.mwo.invoice;
 
 import java.math.BigDecimal;
 
+import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Before;
@@ -121,10 +122,16 @@ public class InvoiceTest {
     }
     
     @Test
-    public void testTheNumber()
+    public void testTheSameInvoiceHasTheSameNumber()
     {
-    	int number = invoice.getNumber();
-    	int number2 = new Invoice().getNumber();
-    	Assert.assertNotEquals(number, number2);
+    	Assert.assertEquals(invoice.getNumber(), invoice.getNumber());
+    }
+    
+    @Test
+    public void testPrint()
+    {
+    	String number = Integer.toString(invoice.getNumber());
+    	String listInfoProduct = invoice.getPrint();
+    	Assert.assertThat(listInfoProduct, Matchers.containsString("Number of invoice: " + number));
     }
 }

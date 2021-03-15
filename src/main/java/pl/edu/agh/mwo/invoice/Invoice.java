@@ -1,14 +1,17 @@
 package pl.edu.agh.mwo.invoice;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
 import pl.edu.agh.mwo.invoice.product.Product;
 
 public class Invoice {
-    private Map<Product, Integer> products = new HashMap<Product, Integer>();
+    private final int number = Math.abs(new Random().nextInt());
+	private Map<Product, Integer> products = new HashMap<Product, Integer>();
 
     public void addProduct(Product product) {
         addProduct(product, 1);
@@ -44,6 +47,21 @@ public class Invoice {
     }
 
 	public int getNumber() {
-		return Math.abs(new Random().nextInt());
+		return number;
+	}
+	
+	public String getPrint() {
+		StringBuilder print = new StringBuilder("");
+		print.append("Number of invoice: " + number + "\n");
+		for (Product product : products.keySet())
+		{
+			String name = product.getName();
+			BigDecimal quantity = new BigDecimal(products.get(product)); 
+			BigDecimal price = product.getPriceWithTax();
+			print.append(name + "\t").append(quantity + "\t").append(price + "\t");
+			
+		}
+		print.append(products.size());
+		return print.toString();
 	}
 }
